@@ -298,7 +298,7 @@ button:disabled{
     </form>
 
     <div class="rodape">
-        Sua reserva será enviada diretamente para nossa equipe via WhatsApp.
+        Sua reserva será enviada diretamente para o nosso sistema.
     </div>
 
 </div>
@@ -481,71 +481,24 @@ formReserva.addEventListener('submit', async (e) => {
     };
 
     try {
+        // 1. Salva os dados no Firebase (Isso continua igual e perfeito!)
+        const novaReservaRef = push(ref(db, `agendamentos/${EMPRESA_ID}/${data}`));
+        await set(novaReservaRef, dadosAgendamento);
 
-        const novaReservaRef = push(
-            ref(
-                db,
-                `agendamentos/${EMPRESA_ID}/${data}`
-            )
-        );
+        // 2. EM VEZ DE ABRIR O WHATSAPP: Mostra um aviso de sucesso na tela
+        alert(`Obrigado, ${nome}! Sua reserva para o dia ${data} às ${horario} foi realizada com sucesso.`);
 
-        await set(
-            novaReservaRef,
-            dadosAgendamento
-        );
-
-        const telefoneRestaurante =
-            "5591983042701";
-
-        const textoMensagem =
-            `Olá! Gostaria de confirmar um agendamento:\n\n` +
-
-            `*Nome:* ${nome}\n` +
-
-            `*WhatsApp:* ${whatsappCliente}\n` +
-
-            `*E-mail:* ${emailCliente}\n` +
-
-            `*Mesa para:* ${qtdPessoas} pessoa(s)\n` +
-
-            `*Data:* ${data}\n` +
-
-            `*Horário:* ${horario}`;
-
-        const urlWhatsapp =
-            `https://api.whatsapp.com/send?phone=${telefoneRestaurante}&text=${encodeURIComponent(textoMensagem)}`;
-
-        window.open(urlWhatsapp, '_blank');
-
+        // 3. Reseta o formulário para o próximo cliente
         formReserva.reset();
-
         selectHorario.disabled = true;
-
-        selectHorario.innerHTML = `
-            <option value="">
-                Selecione uma data primeiro...
-            </option>
-        `;
-
-        btnEnviar.textContent =
-            "Reservar";
+        selectHorario.innerHTML = '<option value="">Selecione uma data primeiro...</option>';
+        btnEnviar.textContent = "Confirmar Reserva";
 
     } catch (error) {
-
-        console.error(
-            "Erro ao salvar agendamento:",
-            error
-        );
-
-        alert(
-            "Houve um erro ao salvar sua reserva. Tente novamente."
-        );
-
+        console.error("Erro ao salvar agendamento:", error);
+        alert("Houve um erro ao salvar sua reserva. Tente novamente.");
         btnEnviar.disabled = false;
-
-        btnEnviar.textContent =
-            "Reservar";
-
+        btnEnviar.textContent = "Confirmar Reserva";
     }
 
 });
