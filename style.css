@@ -1,0 +1,385 @@
+:root{
+    --bg:#0b0b0b;
+    --light:#fff;
+    --soft:#d0d0d0;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:black;
+    font-family:'Inter',sans-serif;
+    overflow:hidden;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+
+    width:260px;
+    height:100vh;
+
+    background: black;
+
+    border-right:1px solid rgba(255,255,255,0.06);
+
+    padding:50px 40px;
+
+    z-index:1000;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+}
+
+.logo{
+    color:white;
+    font-size:22px;
+    letter-spacing:8px;
+}
+
+.sidebar-nav{
+    margin-top:100px;
+
+    display:flex;
+    flex-direction:column;
+    gap:30px;
+}
+
+.sidebar-nav a{
+    color:#999;
+    text-decoration:none;
+
+    font-size:13px;
+    letter-spacing:3px;
+    text-transform:uppercase;
+
+    transition:0.4s;
+}
+
+.sidebar-nav a:hover{
+    color:white;
+    transform:translateX(6px);
+}
+
+.sidebar-bottom{
+    color:#666;
+    font-size:11px;
+    letter-spacing:3px;
+}
+
+/* SLIDER */
+
+.slider-wrapper{
+    margin-left:260px;
+    width:calc(100% - 260px);
+    height:100vh;
+
+    position:relative;
+
+    overflow:hidden;
+}
+
+.slider{
+    display:flex;
+    height:100%;
+
+    transition:1s cubic-bezier(.77,0,.18,1);
+}
+
+.slide{
+    min-width:100%;
+    height:100vh;
+
+    position:relative;
+
+    overflow:hidden;
+}
+
+.slide img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+
+    transform:scale(1.05);
+
+    animation:zoom 8s ease infinite alternate;
+}
+
+.slide::after{
+    content:'';
+    position:absolute;
+    inset:0;
+
+    background:linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.65));
+}
+
+/* CONTENT */
+
+.slide-content{
+    position:absolute;
+
+    left:8%;
+    bottom:12%;
+
+    z-index:10;
+
+    max-width:700px;
+
+    color:white;
+}
+
+.slide-tag{
+    color:var(--gold);
+
+    letter-spacing:4px;
+    font-size:12px;
+
+    text-transform:uppercase;
+}
+
+.slide-content h1{
+    font-family:'Cormorant Garamond', serif;
+
+    font-size:clamp(60px,8vw,120px);
+
+    line-height:0.95;
+
+    margin:25px 0;
+}
+
+.slide-content p{
+    max-width:550px;
+
+    color:#ddd;
+
+    line-height:1.8;
+
+    margin-bottom:40px;
+}
+
+/* BUTTON */
+
+.btn{
+    display:inline-block;
+
+    padding:16px 32px;
+
+    background:white;
+    color:black;
+    border:1px solid white;
+
+    text-decoration:none;
+
+    letter-spacing:2px;
+    font-size:12px;
+    text-transform:uppercase;
+
+    transition:0.4s;
+}
+
+.btn:hover{
+    transform:translateY(-4px);
+}
+
+/* CONTROLS */
+
+.slider-controls{
+    position:absolute;
+
+    right:50px;
+    bottom:50px;
+
+    display:flex;
+    gap:12px;
+
+    z-index:20;
+}
+
+.slider-controls button{
+    width:65px;
+    height:65px;
+
+    border:none;
+
+    background:rgba(255,255,255,0.12);
+
+    backdrop-filter:blur(10px);
+
+    color:white;
+
+    font-size:24px;
+
+    cursor:pointer;
+
+    transition:0.4s;
+}
+
+.slider-controls button:hover{
+    background:white;
+    color:black;
+}
+
+/* MOBILE */
+
+.mobile-header{
+    display:none;
+}
+
+.mobile-menu{
+    display:none;
+}
+
+/* ANIMATION */
+
+@keyframes zoom{
+
+    from{
+        transform:scale(1.05);
+    }
+
+    to{
+        transform:scale(1.15);
+    }
+
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+
+    body{
+        overflow:auto;
+    }
+
+    .sidebar{
+        display:none;
+    }
+
+    .slider-wrapper{
+        margin-left:0;
+        width:100%;
+    }
+
+    .mobile-header{
+        position:fixed;
+
+        top:0;
+        left:0;
+
+        width:100%;
+
+        padding:25px;
+
+        z-index:2000;
+
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+    }
+
+    .menu-toggle{
+        width:40px;
+        display:flex;
+        flex-direction:column;
+        gap:8px;
+        cursor:pointer;
+    }
+
+    .menu-toggle span{
+        width:100%;
+        height:1px;
+        background:white;
+    }
+
+    .mobile-menu{
+        position:fixed;
+
+        inset:0;
+
+        background:black;
+
+        z-index:1900;
+
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+
+        gap:35px;
+
+        opacity:0;
+        visibility:hidden;
+
+        transition:0.5s;
+    }
+
+    .mobile-menu.active{
+        opacity:1;
+        visibility:visible;
+    }
+
+    .mobile-menu a{
+        color:white;
+        text-decoration:none;
+
+        font-size:36px;
+
+        font-family:'Cormorant Garamond', serif;
+    }
+
+    .slide-content{
+        left:25px;
+        right:25px;
+        bottom:80px;
+    }
+
+    .slide-content h1{
+        font-size:58px;
+    }
+
+    .slider-controls{
+        right:25px;
+        bottom:25px;
+    }
+
+}
+
+/* LOGO */
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo img {
+    width: 180px;
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    display: block;
+}
+
+/* MOBILE */
+
+.mobile-header .logo img {
+    width: 140px;
+}
+
+/* TELAS MENORES */
+
+@media (max-width: 768px) {
+
+    .logo img {
+        width: 130px;
+    }
+
+}
